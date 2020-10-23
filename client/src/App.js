@@ -1,11 +1,13 @@
 import React from "react";
-
-import "./App.css";
+//import module
+import Configurator from "./modules/AdWordsConfig/Configurator";
+//
+import "./app.css";
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">asd</header>
+      <Configurator />
     </div>
   );
 }
