@@ -35,7 +35,6 @@ const useStyles = makeStyles({
     marginLeft: "1rem",
     flex: 1,
   },
-
   AddBtn: {
     fontSize: "0.75rem",
     padding: 3,
@@ -57,6 +56,14 @@ const useStyles = makeStyles({
 
 export default function Inputs({ title, color }) {
   const classes = useStyles();
+  const colorHex =
+    color === "blue"
+      ? "#2196f3"
+      : color === "green"
+      ? "#4caf50"
+      : color === "yellow"
+      ? "#ffeb3b"
+      : color;
   return (
     <div className={classes.root}>
       <Title color={color} text={title} />
@@ -70,7 +77,7 @@ export default function Inputs({ title, color }) {
 
           <Button
             variant="contained"
-            color="primary"
+            style={{ backgroundColor: colorHex, color: "white" }}
             className={classes.AddBtn}
           >
             <AddCircleOutlineOutlinedIcon fontSize="small" />
@@ -80,10 +87,10 @@ export default function Inputs({ title, color }) {
       </div>
       <div className={classes.recordsWrapper}>
         <div className={classes.recordItems}>
-          {[1, 1, 1, 1, 1, 1].map((e, i) => (
+          {[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1].map((e, i) => (
             <List dense key={i}>
               <ListItem>
-                <ListItemText primary="Single-line item" />
+                <ListItemText primary="item" />
                 <ListItemSecondaryAction>
                   <Button variant="outlined" className={classes.clearBtn}>
                     <IndeterminateCheckBoxOutlinedIcon fontSize="small" />
