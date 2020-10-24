@@ -1,3 +1,8 @@
+//  This is the view of whole module.
+//  Basically, there will be two main components in this modula:
+//    1. Inputs  2. Settings
+//  Each Inputs and Settings component will include a Title component
+
 // Props:
 // - settings - Takes in a json object which pre-populates the form to some previous settings
 //              (please define your own structure that can capture the form data above)
@@ -6,12 +11,12 @@
 // - onExport(settings) - a function prop that gets triggered when export report button is clicked
 
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
-import Grid from "@material-ui/core/Grid";
+import { makeStyles, Paper, Grid } from "@material-ui/core/";
+
 //my components
 import Inputs from "./components/Inputs";
 import Settings from "./components/Settings";
+
 const useStyles = makeStyles({
   root: {
     minHeight: "100vh",
@@ -39,19 +44,19 @@ const AdWordsConfig = () => {
   return (
     <Paper className={classes.root}>
       <Grid container className={classes.outer} justify="center">
-        <Grid item s={12} md={7}>
+        <Grid item s={12} md={6} lg={7}>
           <Grid container>
             <Grid item xs={12} md={6} className={classes.outer2}>
-              <Inputs title="Keywords" color="blue" />
+              <Inputs title="Keywords" color="blue" icon="Keywords" />
             </Grid>
             <Grid item xs={12} md={6} className={classes.outer2}>
-              <Inputs title="Sites" color="green" />
+              <Inputs title="Sites" color="green" icon="Sites" />
             </Grid>
           </Grid>
         </Grid>
 
-        <Grid item s={12} md={5}>
-          <Settings title="Setting" color="yellow" />
+        <Grid item s={12} md={6} lg={5}>
+          <Settings title="Setting" color="yellow" icon="Settings" />
         </Grid>
       </Grid>
     </Paper>

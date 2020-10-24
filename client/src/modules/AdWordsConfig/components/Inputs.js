@@ -1,35 +1,43 @@
-// color: #253147 #243851
+//  This component contains one textfeild and one section to display all the input records
+//  Props:
+//  - title, color, icon: change style
+//  color: #253147(section) #243851(app's background) #283B59(border)
 
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
-import Button from "@material-ui/core/Button";
-import InputBase from "@material-ui/core/InputBase";
+//material ui core
+import {
+  makeStyles,
+  Paper,
+  Button,
+  InputBase,
+  List,
+  ListItem,
+  ListItemText,
+} from "@material-ui/core";
+//material icons
 import IndeterminateCheckBoxOutlinedIcon from "@material-ui/icons/IndeterminateCheckBoxOutlined";
 import AddCircleOutlineOutlinedIcon from "@material-ui/icons/AddCircleOutlineOutlined";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
-//import
+//import my components
 import Title from "./Title";
+
 const useStyles = makeStyles({
   root: { width: "100%", minHeight: "90vh" },
   inputWrapper: {
     padding: "1.25rem",
     backgroundColor: "#253147",
-    margin: "2px",
+    margin: 2,
   },
   inputRoot: {
     display: "flex",
     alignItems: "center",
     backgroundColor: "white",
-    height: "40px",
+    height: "3rem",
   },
   recordsWrapper: {
-    padding: "0.5rem",
+    padding: "0.75rem",
     backgroundColor: "#253147",
-    margin: "2px",
+    margin: 2,
   },
   input: {
     marginLeft: "1rem",
@@ -44,9 +52,9 @@ const useStyles = makeStyles({
     },
   },
   clearBtn: {
-    fontSize: "0.75rem",
+    fontSize: "0.6rem",
     color: "white",
-    border: "0.5px #fff solid",
+    border: "2px #283B59 solid",
     padding: 5,
     "& .MuiButton-startIcon": {
       marginRight: "0",
@@ -54,19 +62,22 @@ const useStyles = makeStyles({
   },
 });
 
-export default function Inputs({ title, color }) {
+export default function Inputs({ title, color, icon }) {
   const classes = useStyles();
+  //get background-color style's hex value
   const colorHex =
     color === "blue"
       ? "#2196f3"
       : color === "green"
       ? "#4caf50"
       : color === "yellow"
-      ? "#ffeb3b"
+      ? "#ffc107"
       : color;
   return (
     <div className={classes.root}>
-      <Title color={color} text={title} />
+      {/* title section */}
+      <Title color={color} text={title} icon={icon} />
+      {/* text area section */}
       <div className={classes.inputWrapper}>
         <Paper component="div" className={classes.inputRoot}>
           <InputBase
@@ -85,6 +96,7 @@ export default function Inputs({ title, color }) {
           </Button>
         </Paper>
       </div>
+      {/* list section for all the records */}
       <div className={classes.recordsWrapper}>
         <div className={classes.recordItems}>
           {[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1].map((e, i) => (
