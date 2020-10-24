@@ -2,29 +2,40 @@ module.exports = (sequelize, Sequelize) => {
   const Settings = sequelize.define("settings", {
     browser: {
       type: Sequelize.STRING(11),
+      defaultValue: "Chrome",
     },
     incognito: {
       type: Sequelize.BOOLEAN,
       defaultValue: false,
     },
-    wait_before_seconds: {
+    wait_target_time: {
       type: Sequelize.INTEGER(11),
+      defaultValue: 295,
     },
     visit_within: {
       type: Sequelize.BOOLEAN,
       defaultValue: false,
     },
-    visit_from_seconds: {
+    visit_from_page: {
       type: Sequelize.INTEGER(11),
+      defaultValue: true,
     },
-    wait_after_seconds: {
+    visit_to_time: {
       type: Sequelize.INTEGER(11),
+      defaultValue: 3050,
     },
-    wait_not_found_seconds: {
+    complete_wait_time: {
       type: Sequelize.INTEGER(11),
+      defaultValue: 310,
     },
-    reset_after_seconds: {
+    no_sites_max: { type: Sequelize.INTEGER(11), defaultValue: 10 },
+    no_sites_wait_time: {
       type: Sequelize.INTEGER(11),
+      defaultValue: 120,
+    },
+    reset_after: {
+      type: Sequelize.INTEGER(11),
+      defaultValue: 1,
     },
     device_reset: {
       type: Sequelize.BOOLEAN,
@@ -36,11 +47,11 @@ module.exports = (sequelize, Sequelize) => {
     },
     phone_reset: {
       type: Sequelize.BOOLEAN,
-      defaultValue: false,
+      defaultValue: true,
     },
     mobile_reset: {
       type: Sequelize.BOOLEAN,
-      defaultValue: false,
+      defaultValue: true,
     },
     fly_mode: {
       type: Sequelize.BOOLEAN,
@@ -48,7 +59,7 @@ module.exports = (sequelize, Sequelize) => {
     },
     remove_cookies: {
       type: Sequelize.BOOLEAN,
-      defaultValue: false,
+      defaultValue: true,
     },
     change_resolution: {
       type: Sequelize.BOOLEAN,
@@ -60,7 +71,7 @@ module.exports = (sequelize, Sequelize) => {
     },
     data_saving: {
       type: Sequelize.BOOLEAN,
-      defaultValue: false,
+      defaultValue: true,
     },
     random_generate: {
       type: Sequelize.BOOLEAN,
@@ -68,11 +79,19 @@ module.exports = (sequelize, Sequelize) => {
     },
     analytics_protection: {
       type: Sequelize.BOOLEAN,
-      defaultValue: false,
+      defaultValue: true,
     },
     remove_history: {
       type: Sequelize.BOOLEAN,
       defaultValue: false,
+    },
+    createdAt: {
+      type: Sequelize.DATE,
+      defaultValue: sequelize.literal("NOW()"),
+    },
+    updatedAt: {
+      type: Sequelize.DATE,
+      defaultValue: sequelize.literal("NOW()"),
     },
   });
 

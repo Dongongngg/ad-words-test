@@ -1,6 +1,11 @@
 //  This is the button group used in the Settings components, to + or -
+//  Receiving a ref from Settings componenets, tell it each name of
 //  Props:
-//  -   value: receiving from parent components as a defualt value, will be set
+//  - value: value of Setting's number input, will be set
+//  - handleIncrement/handleDecrement: take ref container that passed from Settings component,
+//    so it can setState iteratelly to correct state
+//  - name: above functions need values[refName.current.name]
+//  - refNum: create ref to access child component's dom, which is name props
 
 import React, { useState } from "react";
 //material ui core
@@ -41,31 +46,36 @@ const useStyles = makeStyles({
   },
 });
 
-const MyButton = ({ value }) => {
+const MyButton = ({
+  value,
+  handleIncrement,
+  handleDecrement,
+  name,
+  refNum,
+}) => {
   const classes = useStyles();
-  const [counter, setCounter] = useState(value);
-
-  const handleIncrement = () => {
-    setCounter(counter + 1);
-  };
-
-  const handleDecrement = () => {
-    if (counter > 0) {
-      setCounter(counter - 1);
-    }
-  };
 
   return (
     <div className={classes.root}>
-      <div className={classes.num}>{counter}</div>
+      <div className={classes.num}>{value}</div>
       <ButtonGroup
         orientation="vertical"
         aria-label="vertical contained primary button group"
       >
-        <Button onClick={handleIncrement} className={classes.btn}>
+        <Button
+          onClick={() => handleIncrement(refNum)}
+          className={classes.btn}
+          name={name}
+          ref={refNum}
+        >
           +
         </Button>
-        <Button onClick={handleDecrement} className={classes.btn}>
+        <Button
+          onClick={() => handleDecrement(refNum)}
+          className={classes.btn}
+          name={name}
+          ref={refNum}
+        >
           -
         </Button>
       </ButtonGroup>
