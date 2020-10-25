@@ -2,7 +2,7 @@ const db = require("../models/");
 
 const Setting = db.setting;
 
-//Insert one
+//  Insert one
 exports.create = (req, res) => {
   const setting = {
     browser: req.body.browser,
@@ -23,7 +23,7 @@ exports.create = (req, res) => {
     });
 };
 
-//Select all
+//  Select all
 exports.getAll = (req, res) => {
   Setting.findAll()
     .then((data) =>
@@ -40,14 +40,14 @@ exports.getAll = (req, res) => {
     );
 };
 
-//Select one by id
+//  Select one by id
 exports.getOneById = (req, res) => {
   Setting.findByPk(req.params.id)
     .then((data) => {
       if (data === null) {
         res.send({
           success: false,
-          message: "No results found by this query",
+          message: "No results found by this query.",
         });
       } else {
         res.send({

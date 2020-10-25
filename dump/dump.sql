@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS settings 
   ( 
      id                   INTEGER NOT NULL auto_increment, 
-     browser              VARCHAR(11) DEFAULT 'Chrome', 
+     browser              VARCHAR(255) DEFAULT 'chrome', 
      incognito            TINYINT(1) DEFAULT false, 
      wait_target_time      INTEGER(11) DEFAULT 295, 
      visit_within         TINYINT(1) DEFAULT false, 

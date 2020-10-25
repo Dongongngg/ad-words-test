@@ -39,7 +39,7 @@ const useStyles = makeStyles({
     },
   },
 });
-const AdWordsConfig = () => {
+const AdWordsConfig = ({ settings, onStart, onStop, onExport }) => {
   const classes = useStyles();
   return (
     <Paper className={classes.root}>
@@ -56,7 +56,15 @@ const AdWordsConfig = () => {
         </Grid>
 
         <Grid item s={12} md={6} lg={5}>
-          <Settings title="Setting" color="yellow" icon="Settings" />
+          <Settings
+            title="Setting"
+            color="yellow"
+            icon="Settings"
+            settings={settings}
+            onStart={onStart}
+            onStop={onStop}
+            onExport={onExport}
+          />
         </Grid>
       </Grid>
     </Paper>

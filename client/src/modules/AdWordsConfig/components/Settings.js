@@ -1,9 +1,9 @@
-//  This is the component to display setting section of module.
-//  Each section of this page: title-checkbox-input-checkbox-checkbox-button
-//  Will set a initial state as the initial settings
-//  All settings value will be setState() every time the value onChange()
-//  A initial setting value will be create from backend, and will be loaded as json:
-//     browser: "Chrome",
+//  This is the component to display setting section of this module.
+//  Will destructure settings into 3 states, for different kinds of inputs:
+//    checkboxs, browsers, values
+//  Receiving setting from parent component, and pre-populate it as initial display value.
+//  There will an initial settings value presit in MySQL, and will be loaded as json:
+//     browser: "chrome",
 //     incognito: false,
 //     wait_target_time: 295,
 //     visit_within: false,
@@ -11,7 +11,7 @@
 //     visit_to_time: 3050,
 //     complete_wait_time: 310,
 //     no_sites_max: 10,
-//     no_sites_wait_time: 20,
+//     no_sites_wait_time: 120,
 //     reset_after: 1,
 //     device_reset: false,
 //     vinn_reset: false,
@@ -25,6 +25,7 @@
 //     random_generate: false,
 //     analytics_protection: true,
 //     remove_history: false,
+
 import React, { useState, useEffect, createRef } from "react";
 //material ui core
 import {
@@ -43,8 +44,6 @@ import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
 import Title from "./Title";
 import MyButton from "./Button";
 
-//API
-import * as settingAPI from "../API/setting";
 //  A wrapper component with dark blue bgcolor/margin, using for wrapping contents
 const MyBox = withStyles({
   root: {
@@ -160,10 +159,11 @@ const useStyles = makeStyles({
     },
   },
 });
-const Settings = ({ title, color }) => {
+
+const Settings = ({ title, color, settings, onStart, onStop, onExport }) => {
   const classes = useStyles();
-  //  States for checkbox
-  const [settings, setSettings] = useState({
+  //  State for checkbox
+  const [checkboxs, setCheckboxs] = useState({
     incognito: false,
     visit_within: false,
     device_reset: false,
@@ -179,15 +179,16 @@ const Settings = ({ title, color }) => {
     analytics_protection: false,
     remove_history: false,
   });
-  //  States for browser
+
+  //  State for browser
   const [browsers, setBrowsers] = useState({
-    Chrome: false,
-    Firefox: false,
-    Explorer: false,
-    Safari: false,
-    Opera: false,
+    chrome: false,
+    firefox: false,
+    explorer: false,
+    safari: false,
+    opera: false,
   });
-  //  States for number inputs
+  //  State for each number inputs
   const [values, setValues] = useState({
     wait_target_time_min: 0,
     wait_target_time_sec: 0,
@@ -197,13 +198,96 @@ const Settings = ({ title, color }) => {
     complete_wait_time_min: 0,
     complete_wait_time_sec: 0,
     no_sites_max: 0,
-    no_sites_wait_min: 0,
+    no_sites_wait_time_min: 0,
     reset_after: 0,
   });
+  //  State for onClick of btn
+  const [submissions, setSubmissions] = useState({
+    browser: "",
+    incognito: false,
+    wait_target_time: 0,
+    visit_within: false,
+    visit_from_page: 0,
+    visit_to_time: 0,
+    complete_wait_time: 0,
+    no_sites_max: 0,
+    no_sites_wait_time: 0,
+    reset_after: 0,
+    device_reset: false,
+    vinn_reset: false,
+    phone_reset: false,
+    mobile_reset: false,
+    fly_mode: false,
+    remove_cookies: false,
+    change_resolution: false,
+    mouse_tracks: false,
+    data_saving: false,
+    random_generate: false,
+    analytics_protection: false,
+    remove_history: false,
+  });
+
+  //  Pre-popluate all the settings from the props
+  useEffect(() => {
+    setCheckboxs({
+      incognito: settings.incognito || false,
+      visit_within: settings.visit_within || false,
+      device_reset: settings.device_reset || false,
+      vinn_reset: settings.vinn_reset || false,
+      phone_reset: settings.phone_reset || false,
+      mobile_reset: settings.mobile_reset || false,
+      fly_mode: settings.fly_mode || false,
+      remove_cookies: settings.remove_cookies || false,
+      change_resolution: settings.change_resolution || false,
+      mouse_tracks: settings.mouse_tracks || false,
+      data_saving: settings.data_saving || false,
+      random_generate: settings.random_generate || false,
+      analytics_protection: settings.analytics_protection || false,
+      remove_history: settings.remove_history || false,
+    });
+
+    //  Convert a second state into min&sec state
+    setValues({
+      wait_target_time_min: parseInt(settings.wait_target_time / 60) || 0,
+      wait_target_time_sec:
+        settings.wait_target_time -
+          parseInt(settings.wait_target_time / 60) * 60 || 0,
+      visit_from_page: settings.visit_from_page || 0,
+      visit_to_time_min: parseInt(settings.visit_to_time / 60) || 0,
+      visit_to_time_sec:
+        settings.visit_to_time - parseInt(settings.visit_to_time / 60) * 60 ||
+        0,
+      complete_wait_time_min: parseInt(settings.complete_wait_time / 60) || 0,
+      complete_wait_time_sec:
+        settings.complete_wait_time -
+          parseInt(settings.complete_wait_time / 60) * 60 || 0,
+      no_sites_max: settings.no_sites_max || 0,
+      no_sites_wait_time_min: settings.no_sites_wait_time / 60 || 0,
+      reset_after: settings.reset_after || 0,
+    });
+    // Set checked browser
+    if (settings.browser) {
+      setBrowsers({
+        chrome: settings.browser.includes("chrome"),
+        firefox: settings.browser.includes("firefox"),
+        explorer: settings.browser.includes("explorer"),
+        safari: settings.browser.includes("safari"),
+        opera: settings.browser.includes("opera"),
+      });
+    } else {
+      setBrowsers({
+        chrome: false,
+        firefox: false,
+        explorer: false,
+        safari: false,
+        opera: false,
+      });
+    }
+  }, [settings]);
 
   //  Handle value of checkbox
   const handleCheck = (event) => {
-    setSettings({ ...settings, [event.target.name]: event.target.checked });
+    setCheckboxs({ ...checkboxs, [event.target.name]: event.target.checked });
   };
   //  Handle value of browser section,
   //  Before submit, this data will be set into a string that seprates each value with ","
@@ -228,50 +312,95 @@ const Settings = ({ title, color }) => {
   };
 
   const handleIncrement = (refName) => {
-    setValues({
-      ...values,
-      [refName.current.name]: values[refName.current.name] + 1,
-    });
+    if (refName.current.name.includes("time")) {
+      if (values[refName.current.name] < 59) {
+        setValues({
+          ...values,
+          [refName.current.name]: values[refName.current.name] + 1,
+        });
+      }
+    } else {
+      if (values[refName.current.name] < 99) {
+        setValues({
+          ...values,
+          [refName.current.name]: values[refName.current.name] + 1,
+        });
+      }
+    }
   };
 
-  //  Load initial setting and set to state when page mounted
+  //  handle overall setting state that will be sent as a param of onExport() and onStart()
   useEffect(() => {
-    const getInitialSetting = async () => {
-      //  Get the prepared setting data (inserted before) as initial value
-      let res = await settingAPI.getById(1);
-    };
+    // combine all the selected browser before submission, split with ","
+    let selectedBrowser = "";
+    let keys = Object.keys(browsers);
+    for (let i = 0; i < keys.length; i++) {
+      if (browsers[keys[i]]) {
+        selectedBrowser = selectedBrowser + keys[i] + ",";
+      }
+    }
 
-    getInitialSetting();
-  }, []);
+    setSubmissions({
+      browser: selectedBrowser,
+      incognito: checkboxs.incognito,
+      wait_target_time:
+        values.wait_target_time_min * 60 + values.wait_target_time_sec,
+      visit_within: checkboxs.visit_within,
+      visit_from_page: values.visit_from_page,
+      visit_to_time: values.visit_to_time_min * 60 + values.visit_to_time_sec,
+      complete_wait_time:
+        values.complete_wait_time_min * 60 + values.complete_wait_time_sec,
+      no_sites_max: values.no_sites_max,
+      no_sites_wait_time: values.no_sites_wait_time_min * 60,
+      reset_after: values.reset_after,
+      device_reset: checkboxs.device_reset,
+      vinn_reset: checkboxs.vinn_reset,
+      phone_reset: checkboxs.phone_reset,
+      mobile_reset: checkboxs.mobile_reset,
+      fly_mode: checkboxs.fly_mode,
+      remove_cookies: checkboxs.remove_cookies,
+      change_resolution: checkboxs.change_resolution,
+      mouse_tracks: checkboxs.mouse_tracks,
+      data_saving: checkboxs.data_saving,
+      random_generate: checkboxs.random_generate,
+      analytics_protection: checkboxs.analytics_protection,
+      remove_history: checkboxs.remove_history,
+    });
+  }, [checkboxs, browsers, values]);
 
   return (
     <div className={classes.root}>
       {/* Title section */}
       <Title text={title} color={color} icon="Setting" />
+
       <div className={classes.allWrapper}>
         {/* 1st checkbox section, will be divided into left and right by display: flex */}
         <div style={{ display: "flex", justifyContent: "space-between" }}>
           {/* Left section */}
           <MyBox className={classes.browserWrapper}>
             <div className={classes.checkBoxLabel}>
-              {["Chrome", "Firefox", "Explorer", "Safari", "Opera"].map(
-                (e, i) => (
-                  <FormControlLabel
-                    className={classes.checkbox}
-                    control={
-                      <Checkbox
-                        checked={browsers.e}
-                        onChange={handleBrowser}
-                        name={e}
-                        size="small"
-                        style={{ color: "#ffc107" }}
-                      />
-                    }
-                    key={i}
-                    label={e}
-                  />
-                )
-              )}
+              {[
+                ["chrome", "Chrome"],
+                ["firefox", "Firefox"],
+                ["explorer", "Explorer"],
+                ["safari", "Safari"],
+                ["opera", "Opera"],
+              ].map((e, i) => (
+                <FormControlLabel
+                  className={classes.checkbox}
+                  control={
+                    <Checkbox
+                      checked={browsers[e[0]]}
+                      onChange={handleBrowser}
+                      name={e[0]}
+                      size="small"
+                      style={{ color: "#ffc107" }}
+                    />
+                  }
+                  key={i}
+                  label={e[1]}
+                />
+              ))}
             </div>
           </MyBox>
           {/* Right section */}
@@ -281,7 +410,7 @@ const Settings = ({ title, color }) => {
                 className={classes.checkbox}
                 control={
                   <Checkbox
-                    checked={settings.incognito}
+                    checked={checkboxs.incognito}
                     onChange={handleCheck}
                     name="incognito"
                     size="small"
@@ -309,6 +438,7 @@ const Settings = ({ title, color }) => {
               handleIncrement={handleIncrement}
               handleDecrement={handleDecrement}
               name="wait_target_time_sec"
+              type="time"
               refNum={refsArr[1]}
             />
             <MyText>seconds on the targeted website.</MyText>
@@ -318,6 +448,7 @@ const Settings = ({ title, color }) => {
             <FormControlLabel
               control={
                 <Checkbox
+                  checked={checkboxs.visit_within}
                   name="visit_within"
                   size="small"
                   onChange={handleCheck}
@@ -382,10 +513,10 @@ const Settings = ({ title, color }) => {
             />
             <MyText>if not found times</MyText>
             <MyButton
-              value={values.no_sites_wait_min}
+              value={values.no_sites_wait_time_min}
               handleIncrement={handleIncrement}
               handleDecrement={handleDecrement}
-              name="no_sites_wait_min"
+              name="no_sites_wait_time_min"
               refNum={refsArr[8]}
             />
             <MyText>minutes wait.</MyText>
@@ -415,11 +546,11 @@ const Settings = ({ title, color }) => {
               className={classes.checkbox}
               control={
                 <Checkbox
-                  checked={settings[e[0]]}
+                  checked={checkboxs[e[0]]}
                   onChange={handleCheck}
                   name={e[0]}
                   size="small"
-                  style={{ color: "#2196f3" }}
+                  style={{ color: "#4caf50" }}
                 />
               }
               key={i}
@@ -442,7 +573,7 @@ const Settings = ({ title, color }) => {
               className={classes.checkbox}
               control={
                 <Checkbox
-                  checked={settings[e[0]]}
+                  checked={checkboxs[e[0]]}
                   onChange={handleCheck}
                   name={e[0]}
                   size="small"
@@ -461,6 +592,7 @@ const Settings = ({ title, color }) => {
             variant="contained"
             style={{ backgroundColor: "#ffc107" }}
             className={classes.btn}
+            onClick={() => onExport(submissions)}
           >
             EXPORT REPORT
           </Button>
@@ -468,6 +600,7 @@ const Settings = ({ title, color }) => {
             variant="contained"
             style={{ backgroundColor: "#2196f3" }}
             className={classes.btn}
+            onClick={onStop}
           >
             <PauseCircleOutlineIcon fontSize="small" />
             STOP
@@ -476,6 +609,7 @@ const Settings = ({ title, color }) => {
             variant="contained"
             style={{ backgroundColor: "#4caf50" }}
             className={classes.btn}
+            onClick={() => onStart(submissions)}
           >
             <PlayCircleOutlineIcon fontSize="small" />
             START

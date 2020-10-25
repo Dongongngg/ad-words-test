@@ -1,8 +1,10 @@
+//  Initial table for this database
+
 module.exports = (sequelize, Sequelize) => {
   const Settings = sequelize.define("settings", {
     browser: {
-      type: Sequelize.STRING(11),
-      defaultValue: "Chrome",
+      type: Sequelize.STRING(255),
+      defaultValue: "chrome",
     },
     incognito: {
       type: Sequelize.BOOLEAN,
