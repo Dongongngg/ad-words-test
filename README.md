@@ -7,6 +7,7 @@ uri (with proxy:"http://localhost5000"):
 
 - getAll "/api/settings/"
 - Add "/api/settings/"
+- updateById "/api/settings/:id"
 - getById "/api/settings/:id"
 
 **_controller_**: server/controllers/setting.controller.js

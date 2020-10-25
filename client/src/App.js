@@ -9,28 +9,36 @@ import * as settingAPI from "../src/modules/AdWordsConfig/API/setting";
 function App() {
   //  Pre-populated settings for this module, if first time, will set eveything to default
   const [settings, setSettings] = useState({});
+  // Tell Configurator which setting to update
+  const [id, setId] = useState(1);
 
   //  Load pre-populated setting and set to state when page mounted
   useEffect(() => {
     const getInitialSetting = async () => {
       let all = await settingAPI.getAll();
-      const id = all.length;
-
-      let res = await settingAPI.getById(id);
-      if (res.data) {
-        setSettings(res.data);
+      //  if there one setting at database, get that one, otherwise create one
+      if (all.length > 0) {
+        let res = await settingAPI.getById(all.length);
+        setId(all.length);
+        setSettings({ ...res.data, opertaion: "update" });
         console.log(res.data);
       } else {
-        console.log(res.message, "id:", id);
+        console.log("no pre-populated data, creating new setting");
+        setSettings({ opertaion: "create" });
       }
     };
     getInitialSetting();
-    console.log("-----------------pre-populated setting:");
+    console.log("-----------------get pre-populated setting:");
   }, []);
 
   const handleSubmit = async (data) => {
-    let res = await settingAPI.add(data);
-    console.log(res);
+    if (settings.opertaion === "create") {
+      let res = await settingAPI.add(data);
+      console.log("create", res);
+    } else if (settings.opertaion === "update") {
+      let res = await settingAPI.updateById(id, data);
+      console.log("update", res);
+    }
   };
 
   const onStart = (setting) => {

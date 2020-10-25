@@ -28,7 +28,7 @@ export const getById = async (id) => {
 };
 
 //  Update API, not using in the case
-export const updateById = async (data, id) => {
+export const updateById = async (id, data) => {
   try {
     const res = await axios.put(`/api/settings/${id}`, data);
     return res.data;
