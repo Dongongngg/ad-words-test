@@ -1,19 +1,21 @@
 import React, { useEffect, useState } from "react";
-//import module
+//import my module
 import Configurator from "./modules/AdWordsConfig/Configurator";
-//
+//styles
 import "./app.css";
-//
+//api
 import * as settingAPI from "../src/modules/AdWordsConfig/API/setting";
 
 function App() {
-  //  Pre-populate settings for this module
+  //  Pre-populated settings for this module, if first time, will set eveything to default
   const [settings, setSettings] = useState({});
 
-  //  Load initial setting and set to state when page mounted
+  //  Load pre-populated setting and set to state when page mounted
   useEffect(() => {
     const getInitialSetting = async () => {
-      let id = 1;
+      let all = await settingAPI.getAll();
+      const id = all.length;
+
       let res = await settingAPI.getById(id);
       if (res.data) {
         setSettings(res.data);
@@ -23,7 +25,7 @@ function App() {
       }
     };
     getInitialSetting();
-    console.log("-----------------pre-populate setting: ");
+    console.log("-----------------pre-populated setting:");
   }, []);
 
   const handleSubmit = async (data) => {
@@ -32,16 +34,14 @@ function App() {
   };
 
   const onStart = (setting) => {
-    console.log("-----------------onStart: ");
-    console.log(setting);
+    console.log("-----------------onStart: ", setting);
     handleSubmit(setting);
   };
   const onStop = () => {
     console.log("-----------------onStop");
   };
   const onExport = (setting) => {
-    console.log("-----------------onExport: ");
-    console.log(setting);
+    console.log("-----------------onExport: ", setting);
   };
 
   return (

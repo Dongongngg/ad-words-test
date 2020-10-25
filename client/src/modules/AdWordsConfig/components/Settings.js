@@ -227,7 +227,7 @@ const Settings = ({ title, color, settings, onStart, onStop, onExport }) => {
     remove_history: false,
   });
 
-  //  Pre-popluate all the settings from the props
+  //  Destructure of pre-popluated settings receiving from the props
   useEffect(() => {
     setCheckboxs({
       incognito: settings.incognito || false,

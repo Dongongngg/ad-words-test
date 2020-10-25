@@ -27,11 +27,12 @@ export const getById = async (id) => {
   }
 };
 
-// export const updateById = async (data, id) => {
-//   try {
-//     const res = await axios.put(`/api/settings/${id}`, data);
-//     return res.data;
-//   } catch (err) {
-//     return err;
-//   }
-// };
+//  Update API, not using in the case
+export const updateById = async (data, id) => {
+  try {
+    const res = await axios.put(`/api/settings/${id}`, data);
+    return res.data;
+  } catch (err) {
+    return err;
+  }
+};

@@ -1,8 +1,8 @@
 module.exports = {
-  HOST: "localhost",
-  //db
-  PORT: 3333,
-  //3306
+  HOST: "db",
+  PORT: 3306,
+  // HOST: "localhost",
+  // PORT: 3333,
   USER: "root",
   PASSWORD: "666666",
   DB: "ad_words",

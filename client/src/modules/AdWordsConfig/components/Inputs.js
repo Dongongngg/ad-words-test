@@ -1,6 +1,6 @@
 //  This component contains one textfeild and one section to display all the input records
 //  Props:
-//  - title, color, icon: change style
+//  - title, color, icon: set style for each part
 //  color: #253147(section) #243851(app's background) #283B59(border)
 
 import React from "react";
@@ -73,6 +73,22 @@ export default function Inputs({ title, color, icon }) {
       : color === "yellow"
       ? "#ffc107"
       : color;
+
+  const itemArr = [
+    "Item",
+    "Item",
+    "Item",
+    "Item",
+    "Item",
+    "Item",
+    "Item",
+    "Item",
+    "Item",
+    "Item",
+    "Item",
+    "Item",
+    "Item",
+  ];
   return (
     <div className={classes.root}>
       {/* title section */}
@@ -96,13 +112,14 @@ export default function Inputs({ title, color, icon }) {
           </Button>
         </Paper>
       </div>
-      {/* list section for all the records */}
+      {/* List all the records */}
+      {/* As not required in the task, I will leave this part as fake input*/}
       <div className={classes.recordsWrapper}>
         <div className={classes.recordItems}>
-          {[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1].map((e, i) => (
+          {itemArr.map((e, i) => (
             <List dense key={i}>
               <ListItem>
-                <ListItemText primary="item" />
+                <ListItemText primary={e} />
                 <ListItemSecondaryAction>
                   <Button variant="outlined" className={classes.clearBtn}>
                     <IndeterminateCheckBoxOutlinedIcon fontSize="small" />
