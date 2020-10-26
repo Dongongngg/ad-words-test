@@ -2,6 +2,14 @@
 
 module.exports = (sequelize, Sequelize) => {
   const Settings = sequelize.define("settings", {
+    keywords: {
+      type: Sequelize.STRING(255),
+      defaultValue: "example keyword",
+    },
+    sites: {
+      type: Sequelize.STRING(255),
+      defaultValue: "example site",
+    },
     browser: {
       type: Sequelize.STRING(255),
       defaultValue: "chrome",

@@ -5,6 +5,8 @@ const Setting = db.setting;
 //  Insert one
 exports.create = (req, res) => {
   const setting = {
+    keywords: req.body.keywords,
+    sites: req.body.sites,
     browser: req.body.browser,
     incognito: req.body.incognito,
     wait_target_time: req.body.wait_target_time,
@@ -88,6 +90,8 @@ exports.getOneById = (req, res) => {
 //  Update one by id
 exports.updateOneById = (req, res) => {
   const setting = {
+    keywords: req.body.keywords,
+    sites: req.body.sites,
     browser: req.body.browser,
     incognito: req.body.incognito,
     wait_target_time: req.body.wait_target_time,

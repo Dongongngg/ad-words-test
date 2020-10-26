@@ -43,6 +43,7 @@ import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
 //my components
 import Title from "./Title";
 import MyButton from "./Button";
+import { RecordsContext } from "./RecordsContext";
 
 //  A wrapper component with dark blue bgcolor/margin, using for wrapping contents
 const MyBox = withStyles({
@@ -162,6 +163,7 @@ const useStyles = makeStyles({
 
 const Settings = ({ title, color, settings, onStart, onStop, onExport }) => {
   const classes = useStyles();
+
   //  State for checkbox
   const [checkboxs, setCheckboxs] = useState({
     incognito: false,
@@ -179,7 +181,6 @@ const Settings = ({ title, color, settings, onStart, onStop, onExport }) => {
     analytics_protection: false,
     remove_history: false,
   });
-
   //  State for browser
   const [browsers, setBrowsers] = useState({
     chrome: false,
@@ -201,6 +202,7 @@ const Settings = ({ title, color, settings, onStart, onStop, onExport }) => {
     no_sites_wait_time_min: 0,
     reset_after: 0,
   });
+
   //  State for onClick of btn
   const [submissions, setSubmissions] = useState({
     browser: "",
@@ -225,6 +227,8 @@ const Settings = ({ title, color, settings, onStart, onStop, onExport }) => {
     random_generate: false,
     analytics_protection: false,
     remove_history: false,
+    keywords: "",
+    sites: "",
   });
 
   //  Destructure of pre-popluated settings receiving from the props
@@ -330,7 +334,11 @@ const Settings = ({ title, color, settings, onStart, onStop, onExport }) => {
   };
 
   //  handle overall setting state that will be sent as a param of onExport() and onStart()
+  //  Receiving records context
+  const records = React.useContext(RecordsContext);
+
   useEffect(() => {
+    console.log(records);
     // combine all the selected browser before submission, split with ","
     let selectedBrowser = "";
     let keys = Object.keys(browsers);
@@ -339,7 +347,6 @@ const Settings = ({ title, color, settings, onStart, onStop, onExport }) => {
         selectedBrowser = selectedBrowser + keys[i] + ",";
       }
     }
-
     setSubmissions({
       browser: selectedBrowser,
       incognito: checkboxs.incognito,
@@ -365,6 +372,8 @@ const Settings = ({ title, color, settings, onStart, onStop, onExport }) => {
       random_generate: checkboxs.random_generate,
       analytics_protection: checkboxs.analytics_protection,
       remove_history: checkboxs.remove_history,
+      keywords: records.storedKeywords.toString(),
+      sites: records.storedSites.toString(),
     });
   }, [checkboxs, browsers, values]);
 
