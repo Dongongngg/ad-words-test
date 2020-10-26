@@ -70,6 +70,7 @@ export default function Inputs({
   icon,
   storedValues,
   setStoredValues,
+  setFlag,
 }) {
   const classes = useStyles();
   //get background-color style's hex value
@@ -95,6 +96,7 @@ export default function Inputs({
   // update stored value, when inputValues is not empty
   const handleAdd = () => {
     setIsAdd(true);
+    setFlag(true);
   };
 
   useEffect(() => {
@@ -115,6 +117,7 @@ export default function Inputs({
   // clear one stored value, dependents on which index it are at
   const handleClear = (index) => {
     setIsClear(true);
+    setFlag(true);
     setClearIndex(index);
   };
 

@@ -43,7 +43,6 @@ import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
 //my components
 import Title from "./Title";
 import MyButton from "./Button";
-import { RecordsContext } from "./RecordsContext";
 
 //  A wrapper component with dark blue bgcolor/margin, using for wrapping contents
 const MyBox = withStyles({
@@ -161,7 +160,15 @@ const useStyles = makeStyles({
   },
 });
 
-const Settings = ({ title, color, settings, onStart, onStop, onExport }) => {
+const Settings = ({
+  title,
+  color,
+  settings,
+  onStart,
+  onStop,
+  onExport,
+  records,
+}) => {
   const classes = useStyles();
 
   //  State for checkbox
@@ -334,11 +341,8 @@ const Settings = ({ title, color, settings, onStart, onStop, onExport }) => {
   };
 
   //  handle overall setting state that will be sent as a param of onExport() and onStart()
-  //  Receiving records context
-  const records = React.useContext(RecordsContext);
 
   useEffect(() => {
-    console.log(records);
     // combine all the selected browser before submission, split with ","
     let selectedBrowser = "";
     let keys = Object.keys(browsers);
@@ -375,7 +379,7 @@ const Settings = ({ title, color, settings, onStart, onStop, onExport }) => {
       keywords: records.storedKeywords.toString(),
       sites: records.storedSites.toString(),
     });
-  }, [checkboxs, browsers, values]);
+  }, [checkboxs, browsers, values, records]);
 
   return (
     <div className={classes.root}>

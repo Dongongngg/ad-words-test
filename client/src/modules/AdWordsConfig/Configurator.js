@@ -12,7 +12,6 @@
 
 import React, { useState, useEffect } from "react";
 import { makeStyles, Paper, Grid } from "@material-ui/core/";
-import { RecordsContext } from "./components/RecordsContext";
 
 //my components
 import Inputs from "./components/Inputs";
@@ -46,9 +45,19 @@ const AdWordsConfig = ({ settings, onStart, onStop, onExport }) => {
   //  values for input records
   const [storedKeywords, setStoredKeywords] = useState([]);
   const [storedSites, setStoredSites] = useState([]);
+  // need this flag to trigger render after click add or clear btn
+  const [flag, setFlag] = useState(false);
 
   useEffect(() => {
-    //  settings is got
+    setStoredKeywords(storedKeywords);
+    setStoredSites(storedSites);
+    return () => {
+      setFlag(false);
+    };
+  }, [flag, storedKeywords, storedSites]);
+
+  useEffect(() => {
+    //  check settings is recieved
     if (Object.keys(settings).length !== 0) {
       if (settings.sites !== "") {
         setStoredSites(settings.sites.split(","));
@@ -71,6 +80,7 @@ const AdWordsConfig = ({ settings, onStart, onStop, onExport }) => {
                 icon="Keywords"
                 storedValues={storedKeywords}
                 setStoredValues={setStoredKeywords}
+                setFlag={setFlag}
               />
             </Grid>
             <Grid item xs={12} md={6} className={classes.outer2}>
@@ -80,6 +90,7 @@ const AdWordsConfig = ({ settings, onStart, onStop, onExport }) => {
                 icon="Sites"
                 storedValues={storedSites}
                 setStoredValues={setStoredSites}
+                setFlag={setFlag}
               />
             </Grid>
           </Grid>
@@ -87,17 +98,17 @@ const AdWordsConfig = ({ settings, onStart, onStop, onExport }) => {
 
         <Grid item s={12} md={6} lg={5}>
           {/* send a object as record context */}
-          <RecordsContext.Provider value={{ storedKeywords, storedSites }}>
-            <Settings
-              title="Setting"
-              color="yellow"
-              icon="Settings"
-              settings={settings}
-              onStart={onStart}
-              onStop={onStop}
-              onExport={onExport}
-            />
-          </RecordsContext.Provider>
+
+          <Settings
+            title="Setting"
+            color="yellow"
+            icon="Settings"
+            settings={settings}
+            onStart={onStart}
+            onStop={onStop}
+            onExport={onExport}
+            records={{ storedKeywords, storedSites }}
+          />
         </Grid>
       </Grid>
     </Paper>
