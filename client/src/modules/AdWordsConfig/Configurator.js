@@ -10,7 +10,7 @@
 // - onStop() - a function prop that gets triggered when stop button is clicked
 // - onExport(settings) - a function prop that gets triggered when export report button is clicked
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles, Paper, Grid } from "@material-ui/core/";
 
 //my components
@@ -41,21 +41,64 @@ const useStyles = makeStyles({
 });
 const AdWordsConfig = ({ settings, onStart, onStop, onExport }) => {
   const classes = useStyles();
+
+  //  values for input records
+  const [storedKeywords, setStoredKeywords] = useState([]);
+  const [storedSites, setStoredSites] = useState([]);
+  // need this flag to trigger render after click add or clear btn
+  const [flag, setFlag] = useState(false);
+
+  useEffect(() => {
+    setStoredKeywords(storedKeywords);
+    setStoredSites(storedSites);
+    return () => {
+      setFlag(false);
+    };
+  }, [flag, storedKeywords, storedSites]);
+
+  useEffect(() => {
+    //  check settings is recieved
+    if (Object.keys(settings).length !== 0) {
+      if (settings.sites !== "") {
+        setStoredSites(settings.sites.split(","));
+      }
+      if (settings.keywords !== "") {
+        setStoredKeywords(settings.keywords.split(","));
+      }
+    }
+  }, [settings]);
+
   return (
     <Paper className={classes.root}>
       <Grid container className={classes.outer} justify="center">
         <Grid item s={12} md={6} lg={7}>
           <Grid container>
             <Grid item xs={12} md={6} className={classes.outer2}>
-              <Inputs title="Keywords" color="blue" icon="Keywords" />
+              <Inputs
+                title="Keywords"
+                color="blue"
+                icon="Keywords"
+                storedValues={storedKeywords}
+                setStoredValues={setStoredKeywords}
+                setFlag={setFlag}
+              />
             </Grid>
             <Grid item xs={12} md={6} className={classes.outer2}>
-              <Inputs title="Sites" color="green" icon="Sites" />
+              <Inputs
+                title="Sites"
+                color="green"
+                icon="Sites"
+                storedValues={storedSites}
+                setStoredValues={setStoredSites}
+                setFlag={setFlag}
+              />
             </Grid>
           </Grid>
         </Grid>
 
         <Grid item s={12} md={6} lg={5}>
+          {/* send a object as record context */}
+
           <Settings
             title="Setting"
             color="yellow"
@@ -64,6 +107,7 @@ const AdWordsConfig = ({ settings, onStart, onStop, onExport }) => {
             onStart={onStart}
             onStop={onStop}
             onExport={onExport}
+            records={{ storedKeywords, storedSites }}
           />
         </Grid>
       </Grid>
