@@ -4,7 +4,8 @@
 //  color: #253147(section) #243851(app's background) #283B59(border)
 
 import React, { useState, useEffect } from "react";
-//material ui core
+import PropTypes from "prop-types";
+// material ui core
 import {
   makeStyles,
   Paper,
@@ -12,15 +13,15 @@ import {
   InputBase,
   List,
   ListItem,
-  ListItemText,
+  ListItemText
 } from "@material-ui/core";
 
 // import Autocomplete from "@material-ui/lab/Autocomplete";
-//material icons
+// material icons
 import IndeterminateCheckBoxOutlinedIcon from "@material-ui/icons/IndeterminateCheckBoxOutlined";
 import AddCircleOutlineOutlinedIcon from "@material-ui/icons/AddCircleOutlineOutlined";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
-//import my components
+// import my components
 import Title from "./Title";
 
 const useStyles = makeStyles({
@@ -28,30 +29,30 @@ const useStyles = makeStyles({
   inputWrapper: {
     padding: "1.25rem",
     backgroundColor: "#253147",
-    margin: 2,
+    margin: 2
   },
   inputRoot: {
     display: "flex",
     alignItems: "center",
     backgroundColor: "white",
-    height: "3rem",
+    height: "3rem"
   },
   recordsWrapper: {
     padding: "0.75rem",
     backgroundColor: "#253147",
-    margin: 2,
+    margin: 2
   },
   input: {
     marginLeft: "1rem",
-    flex: 1,
+    flex: 1
   },
   AddBtn: {
     fontSize: "0.75rem",
     padding: 3,
     right: 5,
     "& .MuiButton-startIcon": {
-      marginRight: "0",
-    },
+      marginRight: "0"
+    }
   },
   clearBtn: {
     fontSize: "0.6rem",
@@ -59,29 +60,29 @@ const useStyles = makeStyles({
     border: "2px #283B59 solid",
     padding: 5,
     "& .MuiButton-startIcon": {
-      marginRight: "0",
-    },
-  },
+      marginRight: "0"
+    }
+  }
 });
 
-export default function Inputs({
+export default function Inputs ({
   title,
   color,
   icon,
   storedValues,
   setStoredValues,
-  setFlag,
+  setFlag
 }) {
   const classes = useStyles();
-  //get background-color style's hex value
+  // get background-color style's hex value
   const colorHex =
     color === "blue"
       ? "#2196f3"
       : color === "green"
-      ? "#4caf50"
-      : color === "yellow"
-      ? "#ffc107"
-      : color;
+        ? "#4caf50"
+        : color === "yellow"
+          ? "#ffc107"
+          : color;
   //  value of input base
   const [inputValues, setInputValues] = useState("");
   //  A flag for useEffect to set storedValues at right time
@@ -102,7 +103,7 @@ export default function Inputs({
   useEffect(() => {
     if (isAdd) {
       if (inputValues !== "") {
-        let newValues = storedValues;
+        const newValues = storedValues;
         newValues.push(inputValues);
         setStoredValues(newValues);
       }
@@ -123,7 +124,7 @@ export default function Inputs({
 
   useEffect(() => {
     if (isClear) {
-      let newValues = storedValues;
+      const newValues = storedValues;
       newValues.splice(clearIndex, 1);
       setStoredValues(newValues);
     }
@@ -160,7 +161,7 @@ export default function Inputs({
         </Paper>
       </div>
       {/* List all the records */}
-      {/* As not required in the task, I will leave this part as fake input*/}
+      {/* As not required in the task, I will leave this part as fake input */}
       <div className={classes.recordsWrapper}>
         <div className={classes.recordItems}>
           {!storedValues || storedValues.length === 0
@@ -181,33 +182,18 @@ export default function Inputs({
                     </ListItemSecondaryAction>
                   </ListItem>
                 </List>
-              ))}
+            ))}
         </div>
       </div>
     </div>
   );
 }
 
-// const top100Films = [
-//   { title: "The Shawshank Redemption", year: 1994 },
-//   { title: "The Godfather", year: 1972 },
-//   { title: "The Godfather: Part II", year: 1974 },
-//   { title: "The Dark Knight", year: 2008 },
-//   { title: "12 Angry Men", year: 1957 },
-//   { title: "Schindler's List", year: 1993 },
-//   { title: "Pulp Fiction", year: 1994 },
-//   { title: "The Lord of the Rings: The Return of the King", year: 2003 },
-//   { title: "The Good, the Bad and the Ugly", year: 1966 },
-//   { title: "Fight Club", year: 1999 },
-//   { title: "The Lord of the Rings: The Fellowship of the Ring", year: 2001 },
-//   { title: "Star Wars: Episode V - The Empire Strikes Back", year: 1980 },
-//   { title: "Forrest Gump", year: 1994 },
-//   { title: "Inception", year: 2010 },
-//   { title: "The Lord of the Rings: The Two Towers", year: 2002 },
-//   { title: "One Flew Over the Cuckoo's Nest", year: 1975 },
-//   { title: "Goodfellas", year: 1990 },
-//   { title: "The Matrix", year: 1999 },
-//   { title: "Seven Samurai", year: 1954 },
-//   { title: "Star Wars: Episode IV - A New Hope", year: 1977 },
-//   { title: "City of God", year: 2002 },
-// ];
+Inputs.propTypes = {
+  title: PropTypes.string,
+  color: PropTypes.string,
+  icon: PropTypes.string,
+  storedValues: PropTypes.string,
+  setStoredValues: PropTypes.func,
+  setFlag: PropTypes.func
+};

@@ -8,7 +8,8 @@
 //  - refNum: create ref to access child component's dom, which is name props
 
 import React from "react";
-//material ui core
+import PropTypes from "prop-types";
+// material ui core
 import { Button, ButtonGroup, makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles({
@@ -18,13 +19,13 @@ const useStyles = makeStyles({
     width: "4rem",
     height: "2rem",
     border: "2px #283B59 solid",
-    borderRadius: "4px",
+    borderRadius: "4px"
   },
   num: {
     width: "75%",
     display: "inherit",
     justifyContent: "center",
-    alignItems: "center",
+    alignItems: "center"
   },
   btn: {
     border: "2px solid #283B59",
@@ -38,12 +39,12 @@ const useStyles = makeStyles({
     lineHeight: "0",
     borderRight: "1px",
     "&:first-child": {
-      borderTop: "none",
+      borderTop: "none"
     },
     "&:last-child": {
-      borderBottom: "none",
-    },
-  },
+      borderBottom: "none"
+    }
+  }
 });
 
 const MyButton = ({
@@ -51,7 +52,7 @@ const MyButton = ({
   handleIncrement,
   handleDecrement,
   name,
-  refNum,
+  refNum
 }) => {
   const classes = useStyles();
 
@@ -82,5 +83,11 @@ const MyButton = ({
     </div>
   );
 };
-
+MyButton.propTypes = {
+  value: PropTypes.string,
+  handleIncrement: PropTypes.func,
+  handleDecrement: PropTypes.func,
+  name: PropTypes.string,
+  refNum: PropTypes.string
+};
 export default MyButton;

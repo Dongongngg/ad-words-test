@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-//import my module
+// import my module
 import Configurator from "./modules/AdWordsConfig/Configurator";
-//styles
+// styles
 import "./app.css";
-//api
+// api
 import * as settingAPI from "../src/modules/AdWordsConfig/API/setting";
 
-function App() {
+function App () {
   //  Pre-populated settings for this module, if first time, will set eveything to default
   const [settings, setSettings] = useState({});
   // Tell Configurator which setting to update
@@ -15,10 +15,10 @@ function App() {
   //  Load pre-populated setting and set to state when page mounted
   useEffect(() => {
     const getInitialSetting = async () => {
-      let all = await settingAPI.getAll();
+      const all = await settingAPI.getAll();
       //  if there one setting at database, get that one, otherwise create one
       if (all.length > 0) {
-        let res = await settingAPI.getById(all.length);
+        const res = await settingAPI.getById(all.length);
         setId(all.length);
         setSettings({ ...res.data, opertaion: "update" });
         console.log(res.data);
@@ -33,10 +33,10 @@ function App() {
 
   const handleSubmit = async (data) => {
     if (settings.opertaion === "create") {
-      let res = await settingAPI.add(data);
+      const res = await settingAPI.add(data);
       console.log("create", res);
     } else if (settings.opertaion === "update") {
-      let res = await settingAPI.updateById(id, data);
+      const res = await settingAPI.updateById(id, data);
       console.log("update", res);
     }
   };

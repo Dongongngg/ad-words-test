@@ -11,9 +11,10 @@
 // - onExport(settings) - a function prop that gets triggered when export report button is clicked
 
 import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import { makeStyles, Paper, Grid } from "@material-ui/core/";
 
-//my components
+// my components
 import Inputs from "./components/Inputs";
 import Settings from "./components/Settings";
 
@@ -24,20 +25,20 @@ const useStyles = makeStyles({
     color: "white",
     display: "flex",
     justifyContent: "space-evenly",
-    alignItems: "center",
+    alignItems: "center"
   },
   outer: {
     padding: "2rem",
     "@media (max-width: 780px)": {
-      padding: 0,
-    },
+      padding: 0
+    }
   },
   outer2: {
     padding: "1rem",
     "@media (max-width: 780px)": {
-      padding: 0,
-    },
-  },
+      padding: 0
+    }
+  }
 });
 const AdWordsConfig = ({ settings, onStart, onStop, onExport }) => {
   const classes = useStyles();
@@ -59,10 +60,10 @@ const AdWordsConfig = ({ settings, onStart, onStop, onExport }) => {
   useEffect(() => {
     //  check settings is recieved
     if (Object.keys(settings).length !== 0) {
-      if (settings.sites !== "") {
+      if (settings.sites !== undefined) {
         setStoredSites(settings.sites.split(","));
       }
-      if (settings.keywords !== "") {
+      if (settings.keywords !== undefined) {
         setStoredKeywords(settings.keywords.split(","));
       }
     }
@@ -114,5 +115,10 @@ const AdWordsConfig = ({ settings, onStart, onStop, onExport }) => {
     </Paper>
   );
 };
-
+AdWordsConfig.propTypes = {
+  settings: PropTypes.func,
+  onStart: PropTypes.func,
+  onStop: PropTypes.func,
+  onExport: PropTypes.func
+};
 export default AdWordsConfig;

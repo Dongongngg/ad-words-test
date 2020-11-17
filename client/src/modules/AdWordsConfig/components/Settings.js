@@ -27,7 +27,8 @@
 //     remove_history: false,
 
 import React, { useState, useEffect, createRef } from "react";
-//material ui core
+import PropTypes from "prop-types";
+// material ui core
 import {
   makeStyles,
   withStyles,
@@ -35,12 +36,12 @@ import {
   FormControlLabel,
   Box,
   Typography,
-  Button,
+  Button
 } from "@material-ui/core";
-//icons
+// icons
 import PauseCircleOutlineIcon from "@material-ui/icons/PauseCircleOutline";
 import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
-//my components
+// my components
 import Title from "./Title";
 import MyButton from "./Button";
 
@@ -51,86 +52,86 @@ const MyBox = withStyles({
     padding: "1.3rem",
     margin: 2,
     "@media (max-width: 780px)": {
-      margin: "1rem 0",
-    },
-  },
+      margin: "1rem 0"
+    }
+  }
 })(Box);
 //  Inline text for number input section
 const MyText = withStyles({
-  root: { display: "inline" },
+  root: { display: "inline" }
 })(Typography);
 //  Line text
 const MyTextBox = withStyles({
   root: {
     padding: "0",
     "@media (max-width: 780px)": {
-      padding: "1rem",
-    },
-  },
+      padding: "1rem"
+    }
+  }
 })(Box);
 
 const useStyles = makeStyles({
   root: {
     padding: "1rem",
     "@media (max-width: 780px)": {
-      padding: 0,
-    },
+      padding: 0
+    }
   },
   allWrapper: {
-    color: "white",
+    color: "white"
   },
   browserWrapper: {
     width: "80%",
     margin: "2px 2px 1px 2px",
     textAlign: "center",
     "@media (max-width: 780px)": {
-      textAlign: "left",
-    },
+      textAlign: "left"
+    }
   },
   incognitoWrapper: { margin: "2px 2px 1px 2px" },
-  //style for checkboxlabel
+  // style for checkboxlabel
   checkBoxLabel: {
     "& .MuiFormControlLabel-root": {
       margin: "0 0.25rem",
       height: "calc(3rem - 6px)",
       "@media (max-width: 780px)": {
         margin: "1rem",
-        width: "75%",
+        width: "75%"
       },
       "@media (mix-width: 1680px)": {
-        margin: "0.25rem",
+        margin: "0.25rem"
       },
       "& .MuiCheckbox-root ": {
-        padding: "0 0 0 6px",
+        padding: "0 0 0 6px"
       },
       "&> .MuiFormControlLabel-label": {
         fontSize: "0.75rem",
         padding: "0.5rem",
         "@media (max-width: 780px)": {
           fontSize: "1rem",
-          padding: "0.2rem",
-        },
-      },
-    },
+          padding: "0.2rem"
+        }
+      }
+    }
   },
 
   checkbox: {
     border: "2px #283B59 solid",
-    borderRadius: "4px",
+    borderRadius: "4px"
   },
   modeWrapper: {
-    textAlign: "center",
+    textAlign: "center"
   },
   actionWrapper: {
     "& .MuiFormControlLabel-root": {
-      margin: "0.25rem 0.25rem",
+      margin: "0.25rem 0.25rem"
     },
     "@media (max-width: 780px)": {
       textAlign: "center",
       "& .MuiFormControlLabel-root": {
-        margin: "1rem",
-      },
-    },
+        margin: "1rem"
+      }
+    }
   },
   btnWrapper: {
     margin: 2,
@@ -138,8 +139,8 @@ const useStyles = makeStyles({
     display: "flex",
     flexWrap: "wrap",
     "@media (max-width:780px)": {
-      justifyContent: "center",
-    },
+      justifyContent: "center"
+    }
   },
   btn: {
     color: "white",
@@ -147,17 +148,17 @@ const useStyles = makeStyles({
     "&:first-child": { padding: "0.5rem 4rem" },
     "@media (max-width:780px)": {
       padding: "0.25rem 1rem",
-      "&:first-child": { padding: "0.25rem 1rem" },
+      "&:first-child": { padding: "0.25rem 1rem" }
     },
-    margin: "0 0.5rem 0 0",
+    margin: "0 0.5rem 0 0"
   },
   divider: {
     backgroundColor: "#243851",
     padding: "0.4rem",
     "@media (max-width:780px)": {
-      padding: "0.5rem",
-    },
-  },
+      padding: "0.5rem"
+    }
+  }
 });
 
 const Settings = ({
@@ -167,7 +168,7 @@ const Settings = ({
   onStart,
   onStop,
   onExport,
-  records,
+  records
 }) => {
   const classes = useStyles();
 
@@ -186,7 +187,7 @@ const Settings = ({
     data_saving: false,
     random_generate: false,
     analytics_protection: false,
-    remove_history: false,
+    remove_history: false
   });
   //  State for browser
   const [browsers, setBrowsers] = useState({
@@ -194,7 +195,7 @@ const Settings = ({
     firefox: false,
     explorer: false,
     safari: false,
-    opera: false,
+    opera: false
   });
   //  State for each number inputs
   const [values, setValues] = useState({
@@ -207,7 +208,7 @@ const Settings = ({
     complete_wait_time_sec: 0,
     no_sites_max: 0,
     no_sites_wait_time_min: 0,
-    reset_after: 0,
+    reset_after: 0
   });
 
   //  State for onClick of btn
@@ -235,7 +236,7 @@ const Settings = ({
     analytics_protection: false,
     remove_history: false,
     keywords: "",
-    sites: "",
+    sites: ""
   });
 
   //  Destructure of pre-popluated settings receiving from the props
@@ -254,7 +255,7 @@ const Settings = ({
       data_saving: settings.data_saving || false,
       random_generate: settings.random_generate || false,
       analytics_protection: settings.analytics_protection || false,
-      remove_history: settings.remove_history || false,
+      remove_history: settings.remove_history || false
     });
 
     //  Convert a second state into min&sec state
@@ -274,7 +275,7 @@ const Settings = ({
           parseInt(settings.complete_wait_time / 60) * 60 || 0,
       no_sites_max: settings.no_sites_max || 0,
       no_sites_wait_time_min: settings.no_sites_wait_time / 60 || 0,
-      reset_after: settings.reset_after || 0,
+      reset_after: settings.reset_after || 0
     });
     // Set checked browser
     if (settings.browser) {
@@ -283,7 +284,7 @@ const Settings = ({
         firefox: settings.browser.includes("firefox"),
         explorer: settings.browser.includes("explorer"),
         safari: settings.browser.includes("safari"),
-        opera: settings.browser.includes("opera"),
+        opera: settings.browser.includes("opera")
       });
     } else {
       setBrowsers({
@@ -291,7 +292,7 @@ const Settings = ({
         firefox: false,
         explorer: false,
         safari: false,
-        opera: false,
+        opera: false
       });
     }
   }, [settings]);
@@ -317,7 +318,7 @@ const Settings = ({
     if (values[refName.current.name] > 0) {
       setValues({
         ...values,
-        [refName.current.name]: values[refName.current.name] - 1,
+        [refName.current.name]: values[refName.current.name] - 1
       });
     }
   };
@@ -327,14 +328,14 @@ const Settings = ({
       if (values[refName.current.name] < 59) {
         setValues({
           ...values,
-          [refName.current.name]: values[refName.current.name] + 1,
+          [refName.current.name]: values[refName.current.name] + 1
         });
       }
     } else {
       if (values[refName.current.name] < 99) {
         setValues({
           ...values,
-          [refName.current.name]: values[refName.current.name] + 1,
+          [refName.current.name]: values[refName.current.name] + 1
         });
       }
     }
@@ -345,7 +346,7 @@ const Settings = ({
   useEffect(() => {
     // combine all the selected browser before submission, split with ","
     let selectedBrowser = "";
-    let keys = Object.keys(browsers);
+    const keys = Object.keys(browsers);
     for (let i = 0; i < keys.length; i++) {
       if (browsers[keys[i]]) {
         selectedBrowser = selectedBrowser + keys[i] + ",";
@@ -377,7 +378,7 @@ const Settings = ({
       analytics_protection: checkboxs.analytics_protection,
       remove_history: checkboxs.remove_history,
       keywords: records.storedKeywords.toString(),
-      sites: records.storedSites.toString(),
+      sites: records.storedSites.toString()
     });
   }, [checkboxs, browsers, values, records]);
 
@@ -397,7 +398,7 @@ const Settings = ({
                 ["firefox", "Firefox"],
                 ["explorer", "Explorer"],
                 ["safari", "Safari"],
-                ["opera", "Opera"],
+                ["opera", "Opera"]
               ].map((e, i) => (
                 <FormControlLabel
                   className={classes.checkbox}
@@ -553,7 +554,7 @@ const Settings = ({
             ["vinn_reset", "Vinn Reset"],
             ["phone_reset", "Phone Reset"],
             ["mobile_reset", "Mobile Reset"],
-            ["fly_mode", "Fly Mode"],
+            ["fly_mode", "Fly Mode"]
           ].map((e, i) => (
             <FormControlLabel
               className={classes.checkbox}
@@ -580,7 +581,7 @@ const Settings = ({
             ["data_saving", "Data Saving Mode"],
             ["random_generate", "Random Generate"],
             ["analytics_protection", "Analytics Protection"],
-            ["remove_history", "Remove History"],
+            ["remove_history", "Remove History"]
           ].map((e, i) => (
             <FormControlLabel
               className={classes.checkbox}
@@ -631,5 +632,14 @@ const Settings = ({
       </div>
     </div>
   );
+};
+Settings.propTypes = {
+  title: PropTypes.string,
+  color: PropTypes.string,
+  settings: PropTypes.object,
+  onStart: PropTypes.func,
+  onStop: PropTypes.func,
+  onExport: PropTypes.func,
+  records: PropTypes.object
 };
 export default Settings;
