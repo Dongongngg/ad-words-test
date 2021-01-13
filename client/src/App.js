@@ -4,9 +4,9 @@ import Configurator from "./modules/AdWordsConfig/Configurator";
 // styles
 import "./app.css";
 // api
-import * as settingAPI from "../src/modules/AdWordsConfig/API/setting";
+import * as settingAPI from "./modules/AdWordsConfig/API/setting";
 
-function App () {
+function App() {
   //  Pre-populated settings for this module, if first time, will set eveything to default
   const [settings, setSettings] = useState({});
   // Tell Configurator which setting to update
